@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CNN | Image Preprocessing</title>
+		<!-- Import the library js file -->
+		<!-- You might want to use "cropper_jsmin.js" on an actual site -->
+		<script type="text/javascript" src="cropper.js"></script>
+	</head>
+	<body>
+		<!-- A canvas which cropper will draw on -->
+		<div>
+			<canvas id="testCanvas" width="600" height="600" style="border: 1px solid black;" >Your browser does not support canvas.</canvas>
+			<a> ==> RESULT ==> </a>
+			<canvas id="outputCanvas" width="600" height="600" style="border: 1px solid black;" >Your browser does not support canvas.</canvas>
+		</div>
+		
+		
+
+		<script type="text/javascript">
+			cropper.start(document.getElementById("testCanvas"), 1); // initialize cropper by providing it with a target canvas and a XY ratio (height = width * ratio)
+						
+			function handleFileSelect() {
+				// this function will be called when the file input below is changed
+				var file = document.getElementById("fileInput").files[0];
+				
+				var reader = new FileReader();
+
+				reader.onload = function(event) {
+					var data = event.target.result;
+					cropper.showImage(data);
+				};
+				
+				reader.readAsDataURL(file);
+			}
+			
+		</script>
+
+		<br />
+		<!-- Below are a series of inputs which allow file selection and interaction with the cropper api -->
+		<input type="file" id="fileInput" onchange="handleFileSelect()" />
+		<input type="button" onclick="cropper.startCropping()" value="Start cropping" />
+		<input type="button" onclick="cropper.getCroppedImageSrc()" value="Crop" />
+		<input type="button" onclick="cropper.restore()" value="Restore" />
+		<br/>
+		<h3>Save Properties</h3>
+		<a>Resolution<a/>
+		<select id="resolutions">
+		  <option value="32" selected="selected">32x32</option>
+		  <option value="64">64x64</option>
+		  <option value="128">128x128</option>
+		  <option value="256">256x256</option>
+		  <option value="512">512x512</option>
+		</select>
+
+		<button onclick="cropper.viewImage(false)">Normal Image</button>
+		<button onclick="cropper.viewImage('R')">Red Channel</button>
+		<button onclick="cropper.viewImage('G')">Green Channel</button>
+		<button onclick="cropper.viewImage('B')">Blue Channel</button>
+		<button onclick="cropper.viewImage('GRAY')">Grayscale</button>
+		<br/>
+
+	</body>
+</html>
